@@ -2,17 +2,17 @@
   <div>
     <div>
       <label for="name">Name</label>
-      <input type="text" id="name" v-model="name" />
+      <input name="name" type="text" id="name" v-model="name" />
     </div>
 
     <div>
       <label for="price">Price</label>
-      <input type="number" id="price" v-model="price" />
+      <input name="price" type="number" id="price" v-model="price" />
     </div>
 
     <div>
       <label for="quantity">Quantity</label>
-      <input type="number" id="quantity" v-model="quantity" />
+      <input name="quantity" type="number" id="quantity" v-model="quantity" />
     </div>
     <button @click="addProduct(name, price, quantity)">Add</button>
   </div>

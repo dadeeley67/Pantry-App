@@ -1,14 +1,35 @@
 <template>
-  <div>
-    <h2>Recipes</h2>
-    <button @click="sortRecipesByName">Sort by name</button>
-    <button @click="sortRecipesByIngredients">Sort by ingredients</button>
-    <button @click="toggleAddRecipeModal">Add Recipe</button>
+  <div class="m-8">
+    <h2 class="font-bold text-4xl mb-4">Recipes</h2>
+    <div class="flex mx-auto my-4">
+      <button
+        @click="sortRecipesByName"
+        class="p-2 max-w-sm mx-auto bg-slate-500 rounded-md shadow-lg border-2 border-black"
+      >
+        Sort by name
+      </button>
+      <button
+        @click="sortRecipesByIngredients"
+        class="p-2 max-w-sm mx-auto bg-slate-500 rounded-md shadow-lg border-2 border-black"
+      >
+        Sort by ingredients
+      </button>
+      <button
+        @click="toggleAddRecipeModal"
+        class="p-2 max-w-sm mx-auto bg-slate-500 rounded-md shadow-lg border-2 border-black"
+      >
+        Add Recipe
+      </button>
+    </div>
 
     <AddRecipeModal v-if="showAddRecipeModal" @close="toggleAddRecipeModal" />
 
     <ul v-if="recipes.length > 0">
-      <li v-for="recipe in recipes" :key="recipe.name">
+      <!-- Filter recipes by search term -->
+      <label>Search Recipes</label>
+      <input v-model="searchTerm" />
+
+      <li v-for="recipe in searchRecipes(searchTerm)" :key="recipe.name">
         <RecipePanel
           :recipe="recipe"
           @removeRecipe="removeRecipe"
@@ -32,12 +53,13 @@ const recipes = computed(() => store.state.recipes);
 
 const showAddRecipeModal = ref(false);
 
+const searchTerm = ref("");
+
 const toggleAddRecipeModal = () => {
   showAddRecipeModal.value = !showAddRecipeModal.value;
 };
 
 const removeRecipe = (id) => {
-  console.log("removeRecipe", id);
   store.dispatch("removeRecipe", id);
 };
 
@@ -73,6 +95,12 @@ const sortRecipesByIngredients = () => {
     } else {
       return 0;
     }
+  });
+};
+
+const searchRecipes = (searchTerm) => {
+  return recipes.value.filter((recipe) => {
+    return recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
   });
 };
 </script>

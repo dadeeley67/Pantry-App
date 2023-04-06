@@ -53,10 +53,6 @@ const store = createStore({
       const item = state.pantry.find((item) => item.id === payload.id);
       item.quantity = payload.quantity;
     },
-    FIND_PANTRY_ITEM(state, payload) {
-      const item = state.pantry.find((item) => item.id === payload.id);
-      return item;
-    },
     SORT_PANTRY_BY_NAME(state) {
       state.pantry.sort((a, b) => {
         if (a.name < b.name) {
@@ -112,10 +108,6 @@ const store = createStore({
       item.name = payload.name;
       item.ingredients = payload.ingredients;
     },
-    FIND_RECIPE(state, payload) {
-      const item = state.recipes.find((item) => item.id === payload.id);
-      return item;
-    },
   },
   actions: {
     addPantryItem(context, payload) {
@@ -126,9 +118,6 @@ const store = createStore({
     },
     updatePantryItem(context, payload) {
       context.commit("UPDATE_PANTRY_ITEM", payload);
-    },
-    findPantryItem(context, payload) {
-      context.commit("FIND_PANTRY_ITEM", payload);
     },
     sortPantryItemsByName(context) {
       context.commit("SORT_PANTRY_BY_NAME");
@@ -151,9 +140,6 @@ const store = createStore({
     updateRecipe(context, payload) {
       context.commit("UPDATE_RECIPE", payload);
     },
-    findRecipe(context, payload) {
-      context.commit("FIND_RECIPE", payload);
-    },
   },
   getters: {
     pantry(state) {
@@ -161,6 +147,12 @@ const store = createStore({
     },
     recipes(state) {
       return state.recipes;
+    },
+    getPantryItemByID: (state) => (id) => {
+      return state.pantry.find((item) => item.id === id);
+    },
+    getRecipeByID: (state) => (id) => {
+      return state.recipes.find((item) => item.id === id);
     },
   },
 });
